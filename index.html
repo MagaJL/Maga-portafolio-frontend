@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- para que se vea bien en el celular -->
+<title>Portafolio Maga</title>
+
+<style>
+/* ============ 1. CONFIGURACIÓN GENERAL ============ */
+
+/* Saca los márgenes que el navegador pone por defecto */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Para que al tocar un link del menú la página baje suave */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: Arial, sans-serif;
+  color: #2B1B47; /* violeta oscuro */
+  line-height: 1.5; /* espacio entre renglones */
+}
+
+a { color: inherit; text-decoration: none; } /* los links sin subrayado */
+
+/* Todas las secciones tienen el mismo espacio arriba/abajo y a los costados */
+section { padding: 70px 8%; }
+
+h2 { font-size: 40px; margin: 8px 0 15px; }
+
+/* El texto chiquito violeta de arriba de cada título ("01 / SOBRE MÍ") */
+.etiqueta { color: #9b6bd6; font-size: 14px; }
+
+/* Un resaltado rosa atrás de una frase */
+.resaltado { background-color: #FF8FC0; padding: 0 10px; border-radius: 12px; }
+
+
+/* ============ 2. INICIO ============ */
+
+.inicio {
+  background-color: #C9A7F2; /* lila */
+  min-height: 100vh; /* 100vh = que ocupe toda la altura de la pantalla */
+  position: relative; /* para poder ubicar los círculos de fondo */
+  overflow: hidden; /* esconde lo que se sale de la sección */
+}
+
+/* Encabezado: el logo a la izquierda y el menú a la derecha */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 5; /* para que quede por encima de los círculos */
+}
+.logo { font-weight: bold; font-size: 22px; }
+nav a { margin-left: 25px; }
+/* Al pasar el mouse por un link del menú, se subraya */
+nav a:hover { text-decoration: underline; }
+
+/* Los dos círculos grandes de fondo */
+.circulo-rosa {
+  position: absolute;
+  width: 450px; height: 450px;
+  background-color: #FF8FC0;
+  border-radius: 50%; /* 50% convierte un cuadrado en círculo */
+  top: -60px; right: -80px;
+}
+.circulo-amarillo {
+  position: absolute;
+  width: 280px; height: 280px;
+  background-color: #FFE98A;
+  border-radius: 50%;
+  right: 12%; bottom: 15%;
+}
+
+/* Zona central: texto a la izquierda, fotos a la derecha */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 60px;
+  position: relative;
+  z-index: 2;
+}
+.hola { font-size: 28px; }
+.hero h1 { font-size: 110px; line-height: 1; }
+
+/* ANIMACIÓN 1: el resaltado amarillo detrás de "Maga" crece de izquierda a derecha.
+   @keyframes define cómo empieza (from) y cómo termina (to). */
+@keyframes dibujar {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+.nombre { position: relative; display: inline-block; padding: 0 15px; }
+.nombre::before { /* ::before crea un elemento extra detrás del texto */
+  content: "";
+  position: absolute;
+  top: 0; left: 0; height: 100%;
+  background-color: #FFE98A;
+  border-radius: 15px;
+  z-index: -1; /* lo manda atrás del texto */
+  animation: dibujar 1s; /* usa la animación "dibujar" durante 1 segundo */
+}
+
+.descripcion { margin: 15px 0 25px; }
+
+/* Los botones del inicio */
+.boton {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 2px solid #2B1B47;
+  border-radius: 30px;
+  margin-right: 10px;
+  transition: transform 0.2s; /* hace suave el movimiento al pasar el mouse */
+}
+.boton.oscuro { background-color: #2B1B47; color: white; }
+/* Al pasar el mouse el botón sube un poquito */
+.boton:hover { transform: translateY(-5px); }
+
+/* Las fotos con forma de óvalo */
+.fotos { position: relative; width: 380px; height: 420px; }
+.foto {
+  position: absolute;
+  border: 2px solid #2B1B47;
+  box-shadow: 5px 6px 0 #FFE98A; /* la sombra amarilla "dura" del diseño */
+  object-fit: cover; /* la foto se recorta sin deformarse */
+  background-color: #FFD3E6; /* color que se ve si falta la foto */
+}
+.foto.principal { width: 250px; height: 330px; border-radius: 50%; right: 0; top: 0; animation: flotar 4s infinite; }
+.foto.chica { width: 120px; height: 120px; border-radius: 50%; left: 0; bottom: 0; animation: flotar 3s infinite; }
+
+/* ANIMACIÓN 2: las fotos suben y bajan para siempre ("infinite") */
+@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+.scroll { text-align: center; padding: 30px 0 20px; position: relative; z-index: 2; }
+
+
+/* ============ 3. SOBRE MÍ ============ */
+
+.sobre {
+  background-color: #FFD3E6; /* rosa claro */
+  display: flex; /* texto y foto uno al lado del otro */
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sobre-texto { flex: 1; min-width: 280px; }
+.sobre h2 span { color: #9b6bd6; }
+
+/* Las etiquetas redondeadas: Madrijá, Sociable, etc. */
+.chip {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 2px solid #2B1B47;
+  border-radius: 30px;
+  margin: 20px 8px 0 0;
+  transition: transform 0.2s;
+}
+.rosa { background-color: #FF8FC0; }
+.lila { background-color: #C9A7F2; }
+.amarillo { background-color: #FFE98A; }
+/* Al pasar el mouse el chip se agranda */
+.chip:hover { transform: scale(1.12); }
+
+.foto-tuya {
+  width: 300px; height: 400px;
+  object-fit: cover;
+  border: 2px solid #2B1B47;
+  border-radius: 20px;
+  box-shadow: 5px 6px 0 #FFE98A;
+  background-color: #EBDAFB;
+}
+
+
+/* ============ 4. MADRIJÁ ============ */
+
+.madrija { background-color: #FFE98A; } /* amarillo */
+.madrija .resaltado { display: inline-block; margin-top: 5px; }
+
+/* Las 3 fotos en fila */
+.galeria { display: flex; gap: 20px; margin: 30px 0; flex-wrap: wrap; }
+.galeria img {
+  flex: 1;
+  min-width: 200px;
+  height: 220px;
+  object-fit: cover;
+  border: 2px solid #2B1B47;
+  border-radius: 50%;
+  background-color: #FFD3E6;
+  transition: transform 0.3s;
+}
+/* Al pasar el mouse la foto se agranda un poco */
+.galeria img:hover { transform: scale(1.06); }
+
+/* Las 3 cajas blancas con números */
+.datos { display: flex; gap: 20px; flex-wrap: wrap; }
+.dato {
+  flex: 1;
+  min-width: 220px;
+  background-color: white;
+  border: 2px solid #2B1B47;
+  border-radius: 20px;
+  padding: 18px 25px;
+  box-shadow: 5px 6px 0 #C9A7F2;
+}
+.numero { font-size: 38px; font-weight: bold; color: #9b6bd6; margin-right: 12px; }
+.nota { font-size: 12px; margin-top: 10px; }
+
+
+/* ============ 5. PROYECTOS ============ */
+
+.proyectos { background-color: #EBDAFB; }   /* lila claro */
+.tarjetas { display: flex; gap: 20px; flex-wrap: wrap; }
+.tarjeta {
+  flex: 1;
+  min-width: 230px;
+  height: 220px;
+  border: 2px solid #2B1B47;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* el texto queda abajo de la tarjeta */
+  box-shadow: 5px 6px 0 #FFE98A;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.tarjeta h3 { font-size: 24px; }
+
+/* Al pasar el mouse la tarjeta sube y la sombra se hace más grande */
+.tarjeta:hover { transform: translateY(-8px); box-shadow: 9px 14px 0 #2B1B47; }
+
+.proyecto1 { background-color: #FF8FC0; }
+.proyecto2 { background-color: #FFE98A; }
+.proyecto3 { background-color: #C9A7F2; }
+
+
+/* ============ 6. CONTACTO ============ */
+
+.contacto { background-color: #2B1B47; color: white; text-align: center; }
+.mail {
+  display: inline-block;
+  background-color: #FFE98A;
+  color: #2B1B47;
+  padding: 16px 50px;
+  border-radius: 40px;
+  font-size: 19px;
+  transition: transform 0.2s;
+}
+.mail:hover { transform: scale(1.08); }
+.redes { margin: 30px 0; }
+.redes a {
+  display: inline-block;
+  border: 2px solid #FF8FC0;
+  padding: 10px 28px;
+  border-radius: 30px;
+  margin: 6px;
+}
+/* Al pasar el mouse, el fondo se pinta de rosa */
+.redes a:hover { background-color: #FF8FC0; color: #2B1B47; }
+.copy { font-size: 13px; color: #C9A7F2; }
+
+/* Para que en el celular se vea el menú oculto y el nombre más chico */
+@media (max-width: 700px) {
+  nav { display: none; }
+  .hero h1 { font-size: 70px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============ INICIO ============ -->
+<section class="inicio" id="inicio">
+  <!-- Los dos círculos de fondo (el diseño está en el CSS) -->
+  <div class="circulo-rosa"></div>
+  <div class="circulo-amarillo"></div>
+
+  <!-- Encabezado con logo y menú. Cada link usa # + id de la sección -->
+  <header>
+    <a class="logo" href="#inicio">MAGA</a>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#sobre">Sobre mí</a>
+      <a href="#madrija">Madrijá</a>
+      <a href="#actividades">Actividades</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="hola">Hola, soy</p>
+      <h1><span class="nombre">Maga</span></h1>
+      <p class="descripcion"><b>Madrijá.</b><br>
+        Me gusta acompañar, jugar y crear momentos con detalle, cariño y mucho color.</p>
+      <a class="boton oscuro" href="#actividades">Ver mis actividades</a>
+      <a class="boton" href="#contacto">Contactame</a>
+    </div>
+
+    <div class="fotos">
+      <img class="foto principal" src="img/principal.jpg" alt="Foto de Maga">
+      <img class="foto chica" src="img/chica.jpg" alt="Foto">
+    </div>
+  </div>
+
+  <p class="scroll">scrolleá</p>
+</section>
+
+<!-- ============ SOBRE MÍ ============ -->
+<section class="sobre" id="sobre">
+  <div class="sobre-texto">
+    <p class="etiqueta">01 / SOBRE MÍ</p>
+    <h2>Detrás de cada actividad <span>hay una persona.</span></h2>
+    <p>Soy Maga y soy madrijá. Me encanta acompañar a los chicos y cuido cada detalle para que cada encuentro salga lindo. Trabajo con cariño y responsabilidad, y siempre con muchas ganas de pasarla bien.</p>
+    <span class="chip rosa">Madrijá</span>
+    <span class="chip lila">Sociable</span>
+    <span class="chip amarillo">Detallista</span>
+    <span class="chip rosa">Responsable</span>
+  </div>
+  <img class="foto-gan" src="img/gan.jpg" alt="Foto de Gan">
+</section>
+
+<!-- ============ MADRIJÁ ============ -->
+<section class="madrija" id="madrija">
+  <p class="etiqueta">02 / MADRIJÁ</p>
+  <h2>Lo que más amo hacer <span class="resaltado">es ser madrijá.</span></h2>
+  <p>Planificar, jugar, cuidar y acompañar a los chicos. Ser madrijá me enseñó a organizarme, a trabajar en equipo y a ser responsable. Cada actividad me deja algo nuevo, y ver a los chicos disfrutar es lo mejor de todo.</p>
+
+  <div class="galeria">
+    <img src="img/grupal.jpg" alt="Foto grupal">
+    <img src="img/chicos.jpg" alt="Foto con chicos">
+    <img src="img/actividad.jpg" alt="Foto de una actividad">
+  </div>
+
+  <!-- Los números empiezan en 0 y el JavaScript los hace subir.
+       data-meta guarda el número final al que tiene que llegar -->
+  <div class="datos">
+    <div class="dato"><span class="numero" data-meta="15">0</span>chicos a cargo</div>
+    <div class="dato"><span class="numero" data-meta="1">0</span>año de madrijá</div>
+    <div class="dato"><span class="numero" data-meta="100">0</span>% cariño y ganas</div>
+  </div>
+</section>
+
+<!-- ============ PROYECTOS ============ -->
+<section class="proyectos" id="actividades">
+  <p class="etiqueta">03 / ACTIVIDADES</p>
+  <h2>Lo que armo con mi grupo</h2>
+  <div class="tarjetas">
+    <a class="tarjeta proyecto1" href="#"><h3>Juegos y dinámicas</h3><p>Actividades para divertirnos y conocernos más.</p></a>
+    <a class="tarjeta proyecto2" href="#"><h3>Manualidades y talleres</h3><p>Momentos para crear cosas juntos, con mucho color.</p></a>
+    <a class="tarjeta proyecto3" href="#"><h3>Momentos de grupo</h3><p>Los encuentros que más disfrutamos todos.</p></a>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section class="contacto" id="contacto">
+  <h2>Contacto</h2>
+  <a class="mail" href="mailto:magajleder@gmail.com">Mail</a>
+  <div class="redes">
+    <a class="instagram" href="https://www.instagram.com/magaleder_">Instagram</a>
+  </div>
+  <p class="copy">© 2026 Maga</p>
+</section>
+
+
+<script>
+/* ============ JAVASCRIPT ============
+   Este código hace que los números (+15, +1, 100) vayan subiendo desde 0.
+   Empieza solo cuando la persona baja hasta esa parte de la página. */
+
+// Busco TODOS los elementos con la clase "numero" y los guardo en una lista
+var numeros = document.querySelectorAll(".numero");
+
+// Esta variable recuerda si el contador ya empezó, para que no se repita
+var yaEmpezo = false;
+
+/* FUNCIÓN 1: hace subir un número poco a poco */
+function contar(elemento) {
+  var meta = Number(elemento.dataset.meta); // el número final (15, 1 o 100)
+  var actual = 0; // empieza en 0
+
+  // setInterval repite el código de adentro cada 40 milisegundos
+  var reloj = setInterval(function () {
+    actual = actual + 1; // suma 1
+    elemento.textContent = actual; // muestra el número en la página
+
+    // Cuando llega a la meta, se detiene el reloj
+    if (actual >= meta) {
+      clearInterval(reloj);
+    }
+  }, 40);
+}
+
+/* FUNCIÓN 2: revisa si ya se ven los números en la pantalla */
+function revisarScroll() {
+  // Si ya empezó, no hago nada
+  if (yaEmpezo) return;
+
+  // getBoundingClientRect().top = a cuántos píxeles del borde de arriba está el primer número
+  var posicion = numeros[0].getBoundingClientRect().top;
+
+  // Si está dentro de la altura de la pantalla, empieza el conteo
+  if (posicion < window.innerHeight) {
+    yaEmpezo = true;
+    for (var i = 0; i < numeros.length; i++) {
+      contar(numeros[i]);
+    }
+  }
+}
+
+// Cada vez que la persona hace scroll, se ejecuta revisarScroll()
+window.addEventListener("scroll", revisarScroll);
+</script>
+
+</body>
+</html>
